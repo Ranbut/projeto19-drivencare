@@ -1,0 +1,39 @@
+{
+  "name": "projeto19-drivencare",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Back-end do projeto n° 19 do curso de desenvolvimento fullstack da Driven ",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ranbut/projeto19-drivencare.git"
+  },
+  "keywords": [
+    "node.js",
+    "postgresql",
+    "express"
+  ],
+  "author": "Vitor Gabriel do Carmo Alves da Silva (Ranbut)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ranbut/projeto19-drivencare/issues"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "homepage": "https://github.com/Ranbut/projeto19-drivencare#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "http-status": "^1.6.2",
+    "joi": "^17.9.1",
+    "jsonwebtoken": "^9.0.0",
+    "pg": "^8.10.0",
+    "uuid": "^9.0.0"
+  }
+}
