@@ -32,7 +32,30 @@ async function login({ email, password }) {
   return token;
 }
 
+async function medicsByName({ fullName }) {
+  const typeLikeInput = `%${fullName}%`;
+  const result = await userRepositories.findByName(typeLikeInput);
+
+  return result;
+}
+
+async function medicsBySpecialty({ specialty }) {
+  const result = await userRepositories.findBySpecialty(specialty);
+
+  return result;
+}
+
+async function medicsByAddress({ address }) {
+  const typeLikeInput = `%${address}%`;
+  const result = await userRepositories.findByAddress(typeLikeInput);
+
+  return result;
+}
+
 export default {
   signUp,
   login,
+  medicsByName,
+  medicsBySpecialty,
+  medicsByAddress,
 };

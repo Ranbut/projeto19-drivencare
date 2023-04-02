@@ -1,5 +1,16 @@
 import db from "../config/database.js";
 
+async function newMedic({ fullName, cpf, address, email, password, specialization }) {
+  return await db.query(
+    `
+    INSERT INTO medics
+        ("fullName", cpf, address, email, password, specialization)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    `,
+    [fullName, cpf, address, email, password, specialization]
+  );
+}
+
 async function findByEmail(email) {
   return await db.query(
     `
@@ -27,59 +38,49 @@ async function findById(id) {
   );
 }
 
-async function findByName(name) {
+async function findByName(fullName) {
   return await db.query(
     `
     SELECT
-        id, "fullName", specialty, address
+        id, "fullName", specialization, address
     FROM medics 
-    WHERE name LIKE $1
+    WHERE "fullName" LIKE $1
     `,
-    [name]
+    [fullName]
   );
 }
 
-async function findBySpecialty(specialty) {
+async function findBySpecialty(specialization) {
+  console.log(specialization);
   return await db.query(
     `
-    SELECT
-        id, "fullName", specialty, address
-    FROM medics 
-    WHERE specialty LIKE $1
+    SELECT 
+        id, "fullName", specialization, address 
+      FROM medics 
+      WHERE specialization=$1
     `,
-    [specialty]
+    [specialization]
   );
 }
 
-async function findByLocalization(localization) {
+async function findByAddress(address) {
   return await db.query(
     `
     SELECT
-        id, "fullName", specialty, address
+        id, "fullName", specialization, address
     FROM medics 
     WHERE address LIKE $1
     `,
-    [localization]
-  );
-}
-
-async function newMedic({ fullName, cpf, address, email, password, specialization }) {
-  return await db.query(
-    `
-    INSERT INTO medics
-        ("fullName", cpf, address, email, password, specialization)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    `,
-    [fullName, cpf, address, email, password, specialization]
+    [address]
   );
 }
 
 export default {
-  findByEmail,
   newMedic,
+  findByEmail,
   findById,
   findByCpf,
   findByName,
   findBySpecialty,
-  findByLocalization,
+  findByAddress,
 };
