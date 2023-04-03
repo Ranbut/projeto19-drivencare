@@ -32,7 +32,7 @@ async function login({ email, password }) {
 }
 
 async function medicsByName({ fullName }) {
-  const result = await userRepositories.findByName(typeLikeInput);
+  const result = await userRepositories.findByName(fullName);
 
   return result;
 }
