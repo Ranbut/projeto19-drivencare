@@ -32,7 +32,6 @@ async function login({ email, password }) {
 }
 
 async function medicsByName({ fullName }) {
-  const typeLikeInput = `%${fullName}%`;
   const result = await userRepositories.findByName(typeLikeInput);
 
   return result;

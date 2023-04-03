@@ -18,8 +18,8 @@ async function signUp({ fullName, cpf, email, password }) {
 }
 
 async function login({ email, password }) {
+
   const { rowCount, rows: [user] } = await userRepositories.findByEmail(email);
-  
   if (!rowCount) throw errors.invalidCredentialsError();
 
   const isValidPassword = await bcrypt.compare(password, user.password);

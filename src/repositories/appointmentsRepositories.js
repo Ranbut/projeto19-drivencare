@@ -40,9 +40,19 @@ async function confirmStatus(status, medicId, id) {
   );
 }
 
+async function searchHistoric() {
+  return await db.query(
+    `
+    SELECT * FROM appointments
+    `,
+    []
+  );
+}
+
 export default {
     create,
     findDuplicate,
     findById,
-    confirmStatus
+    confirmStatus,
+    searchHistoric
   };

@@ -44,7 +44,7 @@ async function findByName(fullName) {
     SELECT
         id, "fullName", specialization, address
     FROM medics 
-    WHERE "fullName" LIKE $1
+    WHERE "fullName" LIKE %$1%
     `,
     [fullName]
   );

@@ -9,7 +9,9 @@ async function create({ medicId, userId, day, time }) {
 }
 
 async function confirmStatus({ status, medicId, appointId }) {
+
   if (isNaN(appointId)) throw errors.invalidId();
+  
   const { rowCount } = await appointmentsRepositories.findById(medicId, appointId);
   if (!rowCount) throw errors.appointmentNotFound();
 
