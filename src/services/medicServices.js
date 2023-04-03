@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import errors from "../errors/index.js";
 import userRepositories from "../repositories/medicRepositories.js";
+import sessionsRepositories from "../repositories/sessionRepositories.js";
 
 async function signUp({ fullName, cpf, email, password, address, specialization}) {
 
@@ -23,11 +24,9 @@ async function login({ email, password }) {
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) throw errors.invalidCredentialsError();
 
-  const token = jwt.sign(
-    { id: user.id, userType: "medic" },
-    process.env.SECRET_JWT,
-    { expiresIn: 86400 }
-  );
+  const token = jwt.sign({ id: user.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+
+  await sessionsRepositories.createSession(token, user.id, "medic");
 
   return token;
 }

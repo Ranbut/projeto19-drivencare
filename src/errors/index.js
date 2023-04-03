@@ -70,6 +70,14 @@ function unprocessableEntityError(message) {
     };
   }
   
+  function notFoundError() {
+    return {
+      name: "NotFoundError",
+      message: "No result for this search!",
+    };
+  }
+  
+
   export default {
     unprocessableEntityError,
     invalidCredentialsError,
@@ -81,4 +89,5 @@ function unprocessableEntityError(message) {
     patientNotFound,
     appointmentNotFound,
     invalidId,
+    notFoundError
   };
