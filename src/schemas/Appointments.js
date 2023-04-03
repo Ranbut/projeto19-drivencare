@@ -1,11 +1,11 @@
 import joi from "joi";
 
-const add = joi.object({
+const create = joi.object({
   medicId: joi.number().required(),
   day: joi.string().required(),
   time: joi.string().required()
 });
 
 export default {
-    add,
+    create,
 };
