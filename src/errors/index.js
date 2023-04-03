@@ -1,10 +1,17 @@
 function unprocessableEntityError(message) {
     return {
       name: "UnprocessableEntityError",
-      message: "The format given was invalid",
+      message: "The format given was invalid" + message,
     };
   }
   
+  function duplicatedAppointmentError() {
+    return {
+      name: "DuplicatedAppointmentError",
+      message: "There's already an appointment schedule for this time and date",
+    };
+  }
+
   function duplicatedEmailError(email) {
     return {
       name: "DuplicatedEmailError",
@@ -35,20 +42,6 @@ function unprocessableEntityError(message) {
     };
   }
   
-  function duplicatedAppointmentError() {
-    return {
-      name: "DuplicatedAppointmentError",
-      message: "There's already an appointment schedule for this time and date",
-    };
-  }
-  
-  function medicNotFound() {
-    return {
-      name: "MedicNotFound",
-      message: "Medic not found",
-    };
-  }
-  
   function patientNotFound() {
     return {
       name: "PatientNotFound",
@@ -56,13 +49,23 @@ function unprocessableEntityError(message) {
     };
   }
 
+
   function appointmentNotFound() {
     return {
       name: "AppointmentNotFound",
       message: "There's no appointment to confirm at this time",
     };
   }
+
+  function medicNotFound() {
+    return {
+      name: "MedicNotFound",
+      message: "Medic not found",
+    };
+  }
   
+  
+
   function invalidId() {
     return {
       name: "InvalidId",
@@ -70,13 +73,13 @@ function unprocessableEntityError(message) {
     };
   }
   
+
   function notFoundError() {
     return {
       name: "NotFoundError",
       message: "No result for this search",
     };
   }
-  
 
   export default {
     unprocessableEntityError,
