@@ -1,7 +1,7 @@
 function unprocessableEntityError(message) {
     return {
       name: "UnprocessableEntityError",
-      message,
+      message: "The format given was invalid",
     };
   }
   
@@ -31,14 +31,14 @@ function unprocessableEntityError(message) {
   function unauthorizedError() {
     return {
       name: "UnauthorizedError",
-      message: "User unauthorized, try to sign in again to continue",
+      message: "User unauthorized, sign in to use the service",
     };
   }
   
   function duplicatedAppointmentError() {
     return {
       name: "DuplicatedAppointmentError",
-      message: "There's already an appointment schedule for this time",
+      message: "There's already an appointment schedule for this time and date",
     };
   }
   
@@ -73,7 +73,7 @@ function unprocessableEntityError(message) {
   function notFoundError() {
     return {
       name: "NotFoundError",
-      message: "No result for this search!",
+      message: "No result for this search",
     };
   }
   
