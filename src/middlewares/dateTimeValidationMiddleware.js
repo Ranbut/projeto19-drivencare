@@ -12,8 +12,6 @@ export function dateTimeValidation(req, res, next) {
 
     const validDate = dayjs(day, "DD/MM/YYYY").isValid() && dayjs(day, "DD/MM/YYYY").isAfter(dayjs(), "day");
 
-    console.log(dayjs(day, "DD/MM/YYYY").isAfter(dayjs(), "day"));
-
   if (!validDate) {
     throw errors.unprocessableEntityError("Invalid date format or input");
   }

@@ -1,8 +1,8 @@
 import joi from "joi";
 
 const signUp = joi.object({
-    fullName: joi.string().required(),
-    cpf: joi.string().min(11).required(),
+    name: joi.string().required(),
+    cpf: joi.string().min(11).max(11).required(),
     address: joi.string().required(),
     specialization: joi.string().required(),
     email: joi.string().email().required(),

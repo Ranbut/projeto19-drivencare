@@ -3,9 +3,8 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import errors from "../errors/index.js";
 import userRepositories from "../repositories/medicRepositories.js";
-import sessionsRepositories from "../repositories/sessionRepositories.js";
 
-async function signUp({ fullName, cpf, email, password, address, specialization}) {
+async function signUp({ name, cpf, email, password, address, specialization}) {
 
   const { rowCount : countEmail } = await userRepositories.findByEmail(email);
     if (countEmail) throw errors.duplicatedEmailError(email);
@@ -14,7 +13,7 @@ async function signUp({ fullName, cpf, email, password, address, specialization}
   if (countCpf) throw errors.duplicatedEmailError(cpf);
 
   const hashPassword = await bcrypt.hash(password, 10);
-  await userRepositories.newMedic({ fullName, cpf, email, password: hashPassword, address, specialization });
+  await userRepositories.newMedic({ name, cpf, email, password: hashPassword, address, specialization });
 }
 
 async function login({ email, password }) {
@@ -24,26 +23,25 @@ async function login({ email, password }) {
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) throw errors.invalidCredentialsError();
 
-  const token = jwt.sign({ id: user.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
-
-  await sessionsRepositories.createSession(token, user.id, "medic");
+  const token = jwt.sign({ id: user.id, type: "medic"}, process.env.SECRET_JWT, { expiresIn: 86400 });
 
   return token;
 }
 
-async function medicsByName({ fullName }) {
-  const result = await userRepositories.findByName(fullName);
+async function medicsByName(name) {
+  console.log(name)
+  const result = await userRepositories.findByName(name);
 
   return result;
 }
 
-async function medicsBySpecialty({ specialty }) {
+async function medicsBySpecialty(specialty) {
   const result = await userRepositories.findBySpecialty(specialty);
 
   return result;
 }
 
-async function medicsByAddress({ address }) {
+async function medicsByAddress(address) {
   const typeLikeInput = `%${address}%`;
   const result = await userRepositories.findByAddress(typeLikeInput);
 

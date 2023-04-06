@@ -27,14 +27,14 @@ async function findById(id) {
   );
 }
 
-async function newPatient({ fullName, cpf, email, password }) {
+async function newPatient({ name, cpf, email, password }) {
   return await db.query(
     `
     INSERT INTO patients
-        ("fullName", cpf, email, password)
+        ("name", cpf, email, password)
     VALUES ($1, $2, $3, $4)
     `,
-    [fullName, cpf, email, password]
+    [name, cpf, email, password]
   );
 }
 

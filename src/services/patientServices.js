@@ -3,9 +3,8 @@ import jwt from "jsonwebtoken";
 import "dotenv/config";
 import errors from "../errors/index.js";
 import userRepositories from "../repositories/patientRepositories.js";
-import sessionsRepositories from "../repositories/sessionRepositories.js";
 
-async function signUp({ fullName, cpf, email, password }) {
+async function signUp({ name, cpf, email, password }) {
 
   const { rowCount : countEmail } = await userRepositories.findByEmail(email);
   if (countEmail) throw errors.duplicatedEmailError(email);
@@ -14,7 +13,7 @@ async function signUp({ fullName, cpf, email, password }) {
   if (countCpf) throw errors.duplicatedEmailError(cpf);
 
   const hashPassword = await bcrypt.hash(password, 10);
-  await userRepositories.newPatient({ fullName, cpf, email, password: hashPassword });
+  await userRepositories.newPatient({ name, cpf, email, password: hashPassword });
 }
 
 async function login({ email, password }) {
@@ -25,9 +24,7 @@ async function login({ email, password }) {
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) throw errors.invalidCredentialsError();
 
-  const token = jwt.sign({ id: user.id }, process.env.SECRET_JWT, { expiresIn: 86400 });
-
-  await sessionsRepositories.createSession(token, user.id , "patient");
+  const token = jwt.sign({ id: user.id, type: "patient" }, process.env.SECRET_JWT, { expiresIn: 86400 });
 
   return token;
 }

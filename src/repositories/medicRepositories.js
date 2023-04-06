@@ -1,13 +1,13 @@
 import db from "../config/database.js";
 
-async function newMedic({ fullName, cpf, address, email, password, specialization }) {
+async function newMedic({ name, cpf, address, email, password, specialization }) {
   return await db.query(
     `
     INSERT INTO medics
-        ("fullName", cpf, address, email, password, specialization)
+        (name, cpf, address, email, password, specialization)
     VALUES ($1, $2, $3, $4, $5, $6)
     `,
-    [fullName, cpf, address, email, password, specialization]
+    [name, cpf, address, email, password, specialization]
   );
 }
 
@@ -38,24 +38,24 @@ async function findById(id) {
   );
 }
 
-async function findByName(fullName) {
+async function findByName(name) {
+  const like = `%${name}%`
   return await db.query(
     `
     SELECT
-        id, "fullName", specialization, address
+        id, name, specialization, address
     FROM medics 
-    WHERE "fullName" LIKE %$1%
+    WHERE "name" LIKE $1
     `,
-    [fullName]
+    [like]
   );
 }
 
 async function findBySpecialty(specialization) {
-  console.log(specialization);
   return await db.query(
     `
     SELECT 
-        id, "fullName", specialization, address 
+        id, name, specialization, address 
       FROM medics 
       WHERE specialization=$1
     `,
@@ -64,14 +64,15 @@ async function findBySpecialty(specialization) {
 }
 
 async function findByAddress(address) {
+  const like = `%${address}%`
   return await db.query(
     `
     SELECT
-        id, "fullName", specialization, address
+        id, name, specialization, address
     FROM medics 
     WHERE address LIKE $1
     `,
-    [address]
+    [like]
   );
 }
 
