@@ -1,10 +1,10 @@
 import appointmentServices from "../services/appointmentServices.js";
 
 async function create(req, res, next) {
-  const { medicId, day, time } = req.body;
+  const { medicId, date, time } = req.body;
   const { id : userId } = res.locals.user;
   try {
-    await appointmentServices.create({ medicId, userId, day, time });
+    await appointmentServices.create(medicId, userId, date, time);
 
     return res.sendStatus(201);
   } catch (err) {

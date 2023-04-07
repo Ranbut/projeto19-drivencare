@@ -1,26 +1,34 @@
 import db from "../config/database.js";
 
-async function create(medicId, patientId, date, time) {
+async function create(medicId, patientId, dateTimeId) {
     return await db.query(
       `
-      INSERT INTO appointments ("medicId", "patientId", date, time)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO appointments ("medicId", "patientId", "dateTimeId")
+      VALUES ($1, $2, $3);
       `,
-      [medicId, patientId, date, time]
+      [medicId, patientId, dateTimeId]
     );
   }
 
-async function findDuplicate(medicId, date, time) {
+async function findDateTimeAvaliable(date, time) {
+    return await db.query(
+      `
+      SELECT id FROM "availableDatesTimes" WHERE date=$1 AND time=$2 AND "isAvailable"=true;
+      `,
+      [date, time]
+    );
+  }
+
+async function findDuplicate(medicId, dateTimeId) {
   return await db.query(
     `
     SELECT *
     FROM appointments
     WHERE 
-    "medicId" = $1 and 
-    date = $2 and 
-    (time BETWEEN $3::time - interval '59 minutes' AND $3::time + interval '59 minutes')
+    "medicId" = $1 AND 
+    "dateTimeId" = $2;
     `,
-    [medicId, date, time]
+    [medicId, dateTimeId]
   );
 }
 
@@ -44,16 +52,18 @@ async function showPatientsApointementsID(userId, date) {
   return await db.query(
     `
     SELECT p.name as patient, m.name as medic, m.specialization,
-    a.date, a.time, a."corfimationStatus"
+    d.date, d.time, a."corfimationStatus"
     FROM appointments a
     LEFT JOIN "patients" p
     ON a."patientId" = p.id
     LEFT JOIN "medics" m
     ON a."patientId" = m.id
-    WHERE "patientId"=$1 AND
-    date > $2 AND
+    LEFT JOIN "availableDatesTimes" d
+    ON a."dateTimeId" = d.id
+    WHERE a."patientsId"= $1 AND
+    d.date >= $2 AND
     ("corfimationStatus"=true OR "corfimationStatus" IS NULL);
-    `,
+    `
     [userId, date]
   );
 }
@@ -62,14 +72,16 @@ async function showMedicApointementsID(userId, date) {
   return await db.query(
     `
     SELECT p.name as patient, m.name as medic, m.specialization,
-    a.date, a.time, a."corfimationStatus"
+    d.date, d.time, a."corfimationStatus"
     FROM appointments a
     LEFT JOIN "patients" p
     ON a."patientId" = p.id
     LEFT JOIN "medics" m
     ON a."patientId" = m.id
-    WHERE "medicId"=$1 AND
-    date > $2 AND
+    LEFT JOIN "availableDatesTimes" d
+    ON a."dateTimeId" = d.id
+    WHERE a."medicId"= $1 AND
+    d.date >= $2 AND
     ("corfimationStatus"=true OR "corfimationStatus" IS NULL);
     `,
     [userId, date]
@@ -80,13 +92,15 @@ async function showPatientsHistoricID(userId) {
   return await db.query(
     `
     SELECT p.name as patient, m.name as medic, m.specialization,
-    a.date, a.time, a."corfimationStatus"
+    d.date, d.time, a."corfimationStatus"
     FROM appointments a
     LEFT JOIN "patients" p
     ON a."patientId" = p.id
     LEFT JOIN "medics" m
     ON a."patientId" = m.id
-    WHERE "patientId"=$1;
+    LEFT JOIN "availableDatesTimes" d
+    ON a."dateTimeId" = d.id
+    WHERE a."patientsId" = $1;
     `,
     [userId]
   );
@@ -96,13 +110,15 @@ async function showMedicHistoricID(userId) {
   return await db.query(
     `
     SELECT p.name as patient, m.name as medic, m.specialization,
-    a.date, a.time, a."corfimationStatus"
+    d.date, d.time, a."corfimationStatus"
     FROM appointments a
     LEFT JOIN "patients" p
     ON a."patientId" = p.id
     LEFT JOIN "medics" m
     ON a."patientId" = m.id
-    WHERE "medicId"=$1;
+    LEFT JOIN "availableDatesTimes" d
+    ON a."dateTimeId" = d.id
+    WHERE a."medicId" = $1;
     `,
     [userId]
   );
@@ -110,6 +126,7 @@ async function showMedicHistoricID(userId) {
 
 export default {
     create,
+    findDateTimeAvaliable,
     findDuplicate,
     findById,
     confirmStatus,

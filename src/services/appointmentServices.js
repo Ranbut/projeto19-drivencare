@@ -2,11 +2,17 @@ import dayjs from "dayjs";
 import errors from "../errors/index.js";
 import appointmentsRepositories from "../repositories/appointmentsRepositories.js";
 
-async function create({ medicId, userId, day, time }) {
-  const { rowCount } = await appointmentsRepositories.findDuplicate(medicId, day, time);
-  if (rowCount) throw errors.duplicatedAppointmentError();
+async function create(medicId, userId, date, time) {
+
+  const { rowCount: rowDateTime, rows: [dateTime]} = await appointmentsRepositories.findDateTimeAvaliable(date, time);
+  if (!rowDateTime) throw errors.dateTimeAvaliableNotFound();
+
+  const dateTimeId = dateTime.id
+
+  const { rowCount: rowAppointment } = await appointmentsRepositories.findDuplicate(medicId, dateTimeId);
+  if (rowAppointment) throw errors.duplicatedAppointmentError();
   
-  await appointmentsRepositories.create(medicId, userId, day, time);
+  await appointmentsRepositories.create(medicId, userId, dateTimeId);
 }
 
 async function confirmStatus({ status, medicId, appointId }) {

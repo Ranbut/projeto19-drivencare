@@ -34,7 +34,8 @@ export default function handleAPIErrors(err, req, res, next) {
   if (
     err.name === "AppointmentNotFound" ||
     err.name === "PatientNotFound" ||
-    err.name === "MedicNotFound"
+    err.name === "MedicNotFound" ||
+    err.name === "DateTimeAvaliableNotFound"
   ) {
     return res.status(httpStatus.NOT_FOUND).send({ message: err.message });
   }

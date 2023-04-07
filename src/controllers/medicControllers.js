@@ -17,7 +17,19 @@ async function login(req, res, next) {
   try {
     const token = await medicServices.login(userData);
 
-    return res.send({ token });
+    return res.send(token);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function addAvaliableDate(req, res, next) {
+  const { date, time } = req.body;
+  const { id : userId } = res.locals.user;
+  try {
+    await medicServices.addAvaliableDate(userId, date, time);
+
+    return res.sendStatus(201);
   } catch (err) {
     next(err);
   }
@@ -60,6 +72,7 @@ async function medicsByAddress(req, res, next) {
 export default {
   signUp,
   login,
+  addAvaliableDate,
   medicsByName,
   medicsBySpecialty,
   medicsByAddress

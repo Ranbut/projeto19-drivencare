@@ -5,7 +5,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat.js";
 dayjs.extend(customParseFormat);
 
 export function dateTimeValidation(req, res, next) {
-    const { time, day } = req.body;
+    const { time, date } = req.body;
 
     const dateFormat = "DD/MM/YYYY";
 
@@ -15,7 +15,7 @@ export function dateTimeValidation(req, res, next) {
       throw errors.unprocessableEntityError(": Invalid time format or input");
     }
 
-    const validDate = dayjs(day, dateFormat).isValid() && dayjs(day, "DD/MM/YYYY").isAfter(dayjs(), "day");
+    const validDate = dayjs(date, dateFormat).isValid() && dayjs(date, "DD/MM/YYYY").isAfter(dayjs(), "day");
 
   if (!validDate) {
     throw errors.unprocessableEntityError(": Invalid time format or input");

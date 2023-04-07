@@ -17,7 +17,19 @@ async function login(req, res, next) {
   try {
     const token = await patientServices.login(userData);
 
-    return res.send({ token });
+    return res.send(token);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function checkAvaliableTime(req, res, next) {
+  const medicId = req.params.id;
+
+  try {
+    const { rows: list } = await patientServices.checkAvaliableTime(medicId);
+    
+    return res.send(list);
   } catch (err) {
     next(err);
   }
@@ -26,4 +38,5 @@ async function login(req, res, next) {
 export default {
   signUp,
   login,
+  checkAvaliableTime
 };

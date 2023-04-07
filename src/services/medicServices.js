@@ -28,6 +28,13 @@ async function login({ email, password }) {
   return token;
 }
 
+async function addAvaliableDate(userId, date, time) {
+  const { rowCount } = await userRepositories.findDateTime(date, time);
+  if (rowCount) throw errors.duplicatedDateTimeAvaliable();
+  
+  await userRepositories.addAvaliableDate(userId, date, time);
+}
+
 async function medicsByName(name) {
   console.log(name)
   const result = await userRepositories.findByName(name);
@@ -51,6 +58,7 @@ async function medicsByAddress(address) {
 export default {
   signUp,
   login,
+  addAvaliableDate,
   medicsByName,
   medicsBySpecialty,
   medicsByAddress,

@@ -12,6 +12,13 @@ function unprocessableEntityError(message) {
     };
   }
 
+  function duplicatedDateTimeAvaliable() {
+    return {
+      name: "DuplicatedAppointmentError",
+      message: "This time and date was used already",
+    };
+  }
+
   function duplicatedEmailError(email) {
     return {
       name: "DuplicatedEmailError",
@@ -49,6 +56,12 @@ function unprocessableEntityError(message) {
     };
   }
 
+  function dateTimeAvaliableNotFound() {
+    return {
+      name: "DateTimeAvaliableNotFound",
+      message: "There's no date or time avaliable",
+    };
+  }
 
   function appointmentNotFound() {
     return {
@@ -88,8 +101,10 @@ function unprocessableEntityError(message) {
     duplicatedCpfError,
     unauthorizedError,
     duplicatedAppointmentError,
+    duplicatedDateTimeAvaliable,
     medicNotFound,
     patientNotFound,
+    dateTimeAvaliableNotFound,
     appointmentNotFound,
     invalidId,
     notFoundError
