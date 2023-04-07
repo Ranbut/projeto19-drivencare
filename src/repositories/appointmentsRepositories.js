@@ -40,12 +40,71 @@ async function confirmStatus(status, medicId, id) {
   );
 }
 
-async function searchHistoric() {
+async function showPatientsApointementsID(userId, date) {
   return await db.query(
     `
-    SELECT * FROM appointments
+    SELECT p.name as patient, m.name as medic, m.specialization,
+    a.date, a.time, a."corfimationStatus"
+    FROM appointments a
+    LEFT JOIN "patients" p
+    ON a."patientId" = p.id
+    LEFT JOIN "medics" m
+    ON a."patientId" = m.id
+    WHERE "patientId"=$1 AND
+    date > $2 AND
+    ("corfimationStatus"=true OR "corfimationStatus" IS NULL);
     `,
-    []
+    [userId, date]
+  );
+}
+
+async function showMedicApointementsID(userId, date) {
+  return await db.query(
+    `
+    SELECT p.name as patient, m.name as medic, m.specialization,
+    a.date, a.time, a."corfimationStatus"
+    FROM appointments a
+    LEFT JOIN "patients" p
+    ON a."patientId" = p.id
+    LEFT JOIN "medics" m
+    ON a."patientId" = m.id
+    WHERE "medicId"=$1 AND
+    date > $2 AND
+    ("corfimationStatus"=true OR "corfimationStatus" IS NULL);
+    `,
+    [userId, date]
+  );
+}
+
+async function showPatientsHistoricID(userId) {
+  return await db.query(
+    `
+    SELECT p.name as patient, m.name as medic, m.specialization,
+    a.date, a.time, a."corfimationStatus"
+    FROM appointments a
+    LEFT JOIN "patients" p
+    ON a."patientId" = p.id
+    LEFT JOIN "medics" m
+    ON a."patientId" = m.id
+    WHERE "patientId"=$1;
+    `,
+    [userId]
+  );
+}
+
+async function showMedicHistoricID(userId) {
+  return await db.query(
+    `
+    SELECT p.name as patient, m.name as medic, m.specialization,
+    a.date, a.time, a."corfimationStatus"
+    FROM appointments a
+    LEFT JOIN "patients" p
+    ON a."patientId" = p.id
+    LEFT JOIN "medics" m
+    ON a."patientId" = m.id
+    WHERE "medicId"=$1;
+    `,
+    [userId]
   );
 }
 
@@ -54,5 +113,8 @@ export default {
     findDuplicate,
     findById,
     confirmStatus,
-    searchHistoric
+    showPatientsApointementsID,
+    showMedicApointementsID,
+    showPatientsHistoricID,
+    showMedicHistoricID
   };

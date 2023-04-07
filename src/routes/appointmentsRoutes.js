@@ -9,5 +9,7 @@ const appointmentsRoutes = Router();
 
 appointmentsRoutes.post('/create', validateSchema(Appointments.create), dateTimeValidation, authValidation, appointmentControllers.create);
 appointmentsRoutes.put('/:appointId/:status', authValidation, appointmentControllers.confirmStatus);
+appointmentsRoutes.get('/', authValidation, appointmentControllers.showAppointements);
+appointmentsRoutes.get('/historic', authValidation, appointmentControllers.showHistoric);
 
 export default appointmentsRoutes;

@@ -7,11 +7,11 @@ Back-end do projeto n° 19 do curso de desenvolvimento fullstack da Driven
 - [X]  Os pacientes devem ser capazes de pesquisar médicos por nome, especialidade ou localização.
 - [ ]  Os pacientes devem ser capazes de visualizar as datas e horários disponíveis para cada médico.
 - [X]  Os pacientes devem ser capazes de agendar uma consulta com um médico, escolhendo a data e horário disponível.
-- [ ]  Os pacientes devem ser capazes de visualizar as consultas agendadas, incluindo a data e horário, nome do médico e especialidade.
+- [X]  Os pacientes devem ser capazes de visualizar as consultas agendadas, incluindo a data e horário, nome do médico e especialidade.
 - [X]  Os médicos devem ser capazes de criar uma conta na plataforma e fazer login.
-- [ ]  Os médicos devem ser capazes de visualizar as consultas agendadas, incluindo a data e horário, nome do paciente e especialidade.
+- [X]  Os médicos devem ser capazes de visualizar as consultas agendadas, incluindo a data e horário, nome do paciente e especialidade.
 - [X]  Os médicos devem ser capazes de confirmar ou cancelar uma consulta agendada.
-- [ ]  Os pacientes e médicos devem ser capazes de visualizar um histórico de consultas realizadas.
+- [X]  Os pacientes e médicos devem ser capazes de visualizar um histórico de consultas realizadas.
 
 ### ✅ **Requisitos Não Funcionais**
 

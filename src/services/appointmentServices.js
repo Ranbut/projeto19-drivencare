@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import errors from "../errors/index.js";
 import appointmentsRepositories from "../repositories/appointmentsRepositories.js";
 
@@ -18,7 +19,28 @@ async function confirmStatus({ status, medicId, appointId }) {
   await appointmentsRepositories.confirmStatus(status, medicId, appointId);
 }
 
+async function showAppointements(userId, type) {
+
+  const date = dayjs().format('DD/MM/YYYY');
+
+  if (type === "patient")
+    return await appointmentsRepositories.showPatientsApointementsID(userId, date);
+
+  if (type === "medic")
+    return await appointmentsRepositories.showMedicApointementsID(userId, date);
+}
+
+async function showHistoric(userId, type) {
+  if (type === "patient")
+    return await appointmentsRepositories.showPatientsHistoricID(userId);
+
+  if (type === "medic")
+    return await appointmentsRepositories.showMedicHistoricID(userId);
+}
+
 export default {
   create,
+  showAppointements,
+  showHistoric,
   confirmStatus
 };

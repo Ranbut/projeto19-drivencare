@@ -25,7 +25,35 @@ async function confirmStatus(req, res, next) {
   }
 }
 
+async function showAppointements(req, res, next){
+  const { id : userId } = res.locals.user;
+  const type = res.locals.type;
+  try {
+    const { rows: appointments } = await appointmentServices.showAppointements(userId, type);
+
+    return res.send(appointments);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+}
+
+async function showHistoric(req, res, next){
+  const { id : userId } = res.locals.user;
+  const type = res.locals.type;
+  try {
+    const { rows: appointments } = await appointmentServices.showHistoric(userId, type);
+
+    return res.send(appointments);
+  } catch (err) {
+    console.log(err);
+    next(err);
+  }
+}
+
 export default {
   create,
-  confirmStatus
+  confirmStatus,
+  showAppointements,
+  showHistoric
 };

@@ -15,11 +15,13 @@ export default async function authValidation(req, res, next) {
           const { rows: [user]} = await patientsRepositories.findById(decoded.id);
           if (!user) throw errors.unauthorizedError();
           res.locals.user = user;
+          res.locals.type = "patient";
         }
         else if (decoded.type === "medic"){
           const { rows: [user]} = await medicsRepositories.findById(decoded.id);
           if (!user) throw errors.unauthorizedError();
           res.locals.user = user;
+          res.locals.type = "medic";
         }
         
         next();
