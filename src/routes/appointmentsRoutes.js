@@ -8,6 +8,6 @@ import authValidation from "../middlewares/authMiddleware.js";
 const appointmentsRoutes = Router();
 
 appointmentsRoutes.post('/create', validateSchema(Appointments.create), dateTimeValidation, authValidation, appointmentControllers.create);
-appointmentsRoutes.post('/:appointId/:status', authValidation, appointmentControllers.confirmStatus);
+appointmentsRoutes.put('/:appointId/:status', authValidation, appointmentControllers.confirmStatus);
 
 export default appointmentsRoutes;
